@@ -3,6 +3,7 @@ import json
 taskOfDay = []
 
 def openFile():
+    global taskOfDay
     try:
         with open("tasks.json", "r") as f:
             taskOfDay = json.load(f)
@@ -11,13 +12,13 @@ def openFile():
             pass
 
 def closeFile():
+    global taskOfDay
     with open("tasks.json", "w") as f:
         json.dump(taskOfDay, f)
 
 def addTask():
     title = input("Название задачи:")
     time = input("Время задачи:")
-    openFile()
     task = {
         "taskName": title,
         "taskTime": time,
@@ -28,11 +29,10 @@ def addTask():
     return taskOfDay
 
 def displayTasks():
-    for i in range(len(taskOfDay)):
-        for tasks in taskOfDay:
-            print(f"{i}. {tasks['taskName']} --- {tasks['taskTime']} - status: {tasks['taskStatus']}")
+    for i, tasks in enumerate(taskOfDay, 1):
+        print(f"{i}. {tasks['taskName']} --- {tasks['taskTime']} - status: {tasks['taskStatus']}")
 
-displayTasks()
+openFile()
 while(True):
     print(f"Задачи")
     print(f"----------------------------------------\n ")
